@@ -1,0 +1,18 @@
+{
+    "App": {
+        "Title": "Simple search",
+        "Search": {
+            "Placeholder": "Search",
+            "Button": {
+                "Clear": "Clear",
+                "Search": "Search"
+            }
+        },
+        "ItemList": {
+            "Field": {
+                "Name": "Name: {{itemName}}",
+                "Email": "E-mail: {{itemEmail}}"
+            }
+        }
+    }
+}
