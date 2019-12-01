@@ -1,0 +1,63 @@
+@import 'bootstrap/scss/bootstrap';
+
+html,
+body {
+    nav {
+        .Search {
+            .input-group {
+                margin: 10px 0px;
+            }
+            .typeahead {
+                width: 378px;
+                position: absolute;
+                top: 62px;
+                z-index: 2;
+                max-height: 250px;
+                overflow-y: auto;
+                .list-group {
+                    .list-group-item {
+                        cursor: pointer;
+                        p {
+                            margin: 0;
+                            width: 100%;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+                    }
+                }
+                .found {
+                    font-size: 1.2rem;
+                    color: $primary;
+                    font-weight: bold;
+                    font-style: italic;
+                }
+            }
+        }
+    }
+
+    main {
+        padding: 20px 0px;
+        background: whitesmoke;
+        min-height: calc(100vh - 74px);
+    }
+
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        background-color: $gray-200;
+        border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+        background-color: $gray-200;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1);
+        background-image: -webkit-gradient(linear, left top, right top, from($gray-400), to($gray-200));
+        background-image: -webkit-linear-gradient(left, $gray-400 0%, $gray-200 100%);
+        background-image: linear-gradient(to right, $gray-400 0%, $gray-200 100%);
+    }
+}
