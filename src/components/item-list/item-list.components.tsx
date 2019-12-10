@@ -4,11 +4,11 @@ import { ListGroup } from 'react-bootstrap';
 import { APP_CONFIG } from '../../config/app.config';
 import { withTranslation, WithTranslation } from 'react-i18next';
 
-interface ItemListProps extends WithTranslation {
+interface IItemListProps extends WithTranslation {
     list: IItem[];
     displayedPage: number;
 }
-type ItemListState = {
+interface IItemListState {
     list: IItem[];
     currentPage: number;
 }
@@ -17,9 +17,9 @@ const MoreText = () => (
     <span>...</span>
 )
 
-class ItemList extends PureComponent<ItemListProps, ItemListState> {
-    constructor(props: ItemListProps) {
-        super(props)
+class ItemList extends PureComponent<IItemListProps, IItemListState> {
+    constructor(props: IItemListProps) {
+        super(props);
         this.state = {
             list: [...this.props.list],
             currentPage: this.props.displayedPage
@@ -29,11 +29,19 @@ class ItemList extends PureComponent<ItemListProps, ItemListState> {
 
     }
 
-    componentWillReceiveProps = (nextProps: ItemListProps) => {
-        console.log('itemList----->', nextProps.displayedPage)
+    inPagination = (index: number): boolean => {
+
+        const startingPoint: number = (this.state.currentPage - 1) * APP_CONFIG.MAX_PAGINATION;
+        const endinPoint: number = startingPoint + APP_CONFIG.MAX_PAGINATION;
+
+        return (index >= startingPoint && index < endinPoint);
+    }
+
+    componentWillReceiveProps = (nextProps: IItemListProps) => {
+        console.log('itemList----->', nextProps.displayedPage);
         this.setState({
             currentPage: nextProps.displayedPage
-        })
+        });
     }
 
     render = () => (
@@ -42,15 +50,14 @@ class ItemList extends PureComponent<ItemListProps, ItemListState> {
                 {
                     this.state.list.map((item: IItem, index: number) => {
                         return (
-                            (index >= ((this.state.currentPage - 1) * APP_CONFIG.MAX_PAGINATION) && index < (((this.state.currentPage - 1) * APP_CONFIG.MAX_PAGINATION) + APP_CONFIG.MAX_PAGINATION))
+                            this.inPagination(index)
                                 ? <ListGroup.Item
-                                    key={item.id}
-                                    hidden={!(index >= ((this.state.currentPage - 1) * APP_CONFIG.MAX_PAGINATION) && index < (((this.state.currentPage - 1) * APP_CONFIG.MAX_PAGINATION) + APP_CONFIG.MAX_PAGINATION))}>
+                                    key={item.id}>
                                     <fieldset>
-                                        <p>{this.props.t('App.ItemList.Field.Name', { itemName: item.name })}</p>
-                                        <p>{this.props.t('App.ItemList.Field.Email', { itemEmail: item.email })}</p>
+                                        <p>{this.props.t("App.ItemList.Field.Name", { itemName: item.name })}</p>
+                                        <p>{this.props.t("App.ItemList.Field.Email", { itemEmail: item.email })}</p>
                                         <div>
-                                            {item.body.split('').slice(0, 64).join('')}
+                                            {item.body.split("").slice(0, 64).join("")}
                                             {
                                                 item.body.length > 64
                                                     ? <MoreText />
@@ -60,12 +67,12 @@ class ItemList extends PureComponent<ItemListProps, ItemListState> {
                                     </fieldset>
                                 </ListGroup.Item>
                                 : null
-                        )
+                        );
                     })
                 }
             </ListGroup>
         </div>
-    );
+    )
 }
 
 export default withTranslation()(ItemList);
